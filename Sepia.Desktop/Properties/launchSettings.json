@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Sepia.Desktop": {
+      "commandName": "Project",
+      "nativeDebugging": true,
+      "hotReloadEnabled": false
+    }
+  }
+}

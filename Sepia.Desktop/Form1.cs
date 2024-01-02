@@ -1,5 +1,6 @@
 using Sepia.Desktop.Abstraction;
 using Sepia.Desktop.Sepia;
+using System.Diagnostics;
 
 namespace Sepia.Desktop
 {
@@ -13,12 +14,30 @@ namespace Sepia.Desktop
         private string _targetImagePath = string.Empty;
         private Image? _targetImage = null;
 
+        private void debug()
+        {
+            try
+            {
+                //var img = Image.FromFile("C:\\Users\\Krzysztof\\Downloads\\pexels-shuvalova-natalia-15043759.jpg");
+                var img = Image.FromFile("C:\\Users\\Krzysztof\\Downloads\\dbg.png");
+                _lowLevelSepiaFilter.Process(img, 1.0, 1).Wait();
+            } catch (Exception ex)
+            {
+                throw;
+            }
+            
+        }
+
         public Form1()
         {
+
+
+
             InitializeComponent();
 
             _highLevelSepiaFilter = new HighLevelSepiaFilter();
             _lowLevelSepiaFilter = new LowLevelSepiaFilter();
+            debug();
 
             comboBoxLib.DataSource = Enum.GetValues<LibEnum>()
                 .ToArray();
