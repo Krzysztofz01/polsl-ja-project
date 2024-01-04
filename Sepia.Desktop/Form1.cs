@@ -1,6 +1,5 @@
 using Sepia.Desktop.Abstraction;
 using Sepia.Desktop.Sepia;
-using System.Diagnostics;
 
 namespace Sepia.Desktop
 {
@@ -14,30 +13,12 @@ namespace Sepia.Desktop
         private string _targetImagePath = string.Empty;
         private Image? _targetImage = null;
 
-        private void debug()
-        {
-            try
-            {
-                //var img = Image.FromFile("C:\\Users\\Krzysztof\\Downloads\\pexels-shuvalova-natalia-15043759.jpg");
-                var img = Image.FromFile("C:\\Users\\Krzysztof\\Downloads\\dbg.png");
-                _lowLevelSepiaFilter.Process(img, 1.0, 1).Wait();
-            } catch (Exception ex)
-            {
-                throw;
-            }
-            
-        }
-
         public Form1()
         {
-
-
-
             InitializeComponent();
 
             _highLevelSepiaFilter = new HighLevelSepiaFilter();
             _lowLevelSepiaFilter = new LowLevelSepiaFilter();
-            debug();
 
             comboBoxLib.DataSource = Enum.GetValues<LibEnum>()
                 .ToArray();
@@ -53,20 +34,38 @@ namespace Sepia.Desktop
             };
         }
 
-        // TODO: Check if file exists
         private void button1_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
             var result = openFileDialog.ShowDialog();
             if (result != DialogResult.OK) return;
 
-            _targetImagePath = openFileDialog.FileName;
-            _targetImage = Image.FromFile(_targetImagePath);
+            if (!File.Exists(openFileDialog.FileName))
+            {
+                MessageBox.Show("No file or corrupted file selected.", "Sepia error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            pictureBoxOriginal.Image = _targetImage;
-            pictureBoxSepia.Image = null;
-            button2.Enabled = true;
-            benchmarkLabel.Text = string.Empty;
+            try
+            {
+                _targetImagePath = openFileDialog.FileName;
+                _targetImage = Image.FromFile(_targetImagePath);
+
+                pictureBoxOriginal.Image = _targetImage;
+                button2.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to select the the image. {ex.Message}", "Sepia error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                pictureBoxOriginal.Image = null;              
+                button2.Enabled = false;  
+            }
+            finally
+            {
+                pictureBoxSepia.Image = null;
+                benchmarkLabel.Text = string.Empty;
+            }
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -76,11 +75,26 @@ namespace Sepia.Desktop
             var intensity = Convert.ToDouble(trackBarSepiaIntensity.Value) / 100.0;
             var threads = trackBarThreads.Value;
 
-            var result = await sepiaFilter.Process(_targetImage, intensity, threads);
-            pictureBoxSepia.Image = result;
+            if (_targetImage is null)
+            {
+                MessageBox.Show("Can not continue beacuse no file or corrupted file selected.", "Sepia error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            var benchmarkMilliseconds = await sepiaFilter.Benchmark(_targetImage, intensity, threads, BenchmarkIterations);
-            benchmarkLabel.Text = benchmarkMilliseconds.ToString();
+            try
+            {
+                var result = await sepiaFilter.Process(_targetImage, intensity, threads);
+                pictureBoxSepia.Image = result;
+
+                var benchmarkMilliseconds = await sepiaFilter.Benchmark(_targetImage, intensity, threads, BenchmarkIterations);
+                benchmarkLabel.Text = benchmarkMilliseconds.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Image processing failed. {ex.Message}", "Sepia error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                pictureBoxSepia.Image = null;
+                benchmarkLabel.Text = string.Empty;
+            }
         }
     }
 }

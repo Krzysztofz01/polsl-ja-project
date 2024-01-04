@@ -168,7 +168,7 @@
             Controls.Add(button1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Form1";
-            Text = "Form1";
+            Text = "Project JA - Sepia";
             ((System.ComponentModel.ISupportInitialize)trackBarSepiaIntensity).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBarThreads).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxOriginal).EndInit();
