@@ -63,6 +63,4 @@ internal sealed class HighLevelSepiaFilter : SepiaFilter
 
         return Task.CompletedTask;
     }
-
-    
 }

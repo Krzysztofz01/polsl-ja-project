@@ -77,12 +77,14 @@
             // 
             // trackBarThreads
             // 
+            trackBarThreads.LargeChange = 4;
             trackBarThreads.Location = new Point(12, 212);
-            trackBarThreads.Maximum = 8;
+            trackBarThreads.Maximum = 64;
             trackBarThreads.Minimum = 1;
             trackBarThreads.Name = "trackBarThreads";
             trackBarThreads.Size = new Size(207, 56);
             trackBarThreads.TabIndex = 3;
+            trackBarThreads.TickFrequency = 4;
             trackBarThreads.Value = 1;
             // 
             // label1

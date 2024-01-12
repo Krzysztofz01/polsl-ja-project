@@ -58,8 +58,8 @@ namespace Sepia.Desktop
             {
                 MessageBox.Show($"Failed to select the the image. {ex.Message}", "Sepia error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                pictureBoxOriginal.Image = null;              
-                button2.Enabled = false;  
+                pictureBoxOriginal.Image = null;
+                button2.Enabled = false;
             }
             finally
             {

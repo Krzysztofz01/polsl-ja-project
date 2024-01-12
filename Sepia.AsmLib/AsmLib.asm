@@ -35,8 +35,6 @@ mov rax, 4			; Ustawienie akumulatora na 4, aby przemno¿yæ przez t¹ wartoœæ iloœ
 mul rdx				; Przemno¿enie parametru iloœæi pikseli przez wartoœæ akumulatora
 mov rdx, rax		; Przeniesienie iloczynu tj. ilosci bajtów do RDX
 
-;mov rsi, 0			; (???) Zerujemy rejestr w ktorym bedziemy prowadzic obliczenia bajtow
-
 mov r15, 1			; R15 trzyma wartoœæ reprezentuj¹ca liczbê porz¹dkow¹ iteracji (domyœlnie 1)
 cmp r15, r8			; Jeœli wartoœæ licznika jest wieksza ni¿ iloœæ bajtów do iteracji wychodzimy z pêtli
 jge LoopFinished	;
@@ -83,10 +81,10 @@ addsd xmm0, xmm1			; Suma wartoœci kana³u zmienionego oraz nie zmienionego. Zapi
 
 cvtsd2si rsi, xmm0			; Konwertowanie zmiennoprzecinkowej sumy kana³ow na liczbê ca³kowit¹ i zapis w RSI
 
-;cmp rsi, 255				; Sprawdzenie czy suma kana³ow jest wieksza ni¿ 0xff (255)
-;jle blue_channel_in_range	; Jeœli suma kana³ow jest w zakresie <= 255 wykonujemy skok i pomijamie zmniejszenie wartosci do 255
-;mov rsi, 255				; Ustawienie sumy kana³ow na 255
-;blue_channel_in_range:
+cmp rsi, 255				; Sprawdzenie czy suma kana³ow jest wieksza ni¿ 0xff (255)
+jle blue_channel_in_range	; Jeœli suma kana³ow jest w zakresie <= 255 wykonujemy skok i pomijamie zmniejszenie wartosci do 255
+mov rsi, 255				; Ustawienie sumy kana³ow na 255
+blue_channel_in_range:
 
 mov [rcx + rdx + 0], sil
 ;=============================================================================
