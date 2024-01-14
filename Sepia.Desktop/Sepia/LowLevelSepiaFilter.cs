@@ -1,4 +1,4 @@
-﻿using Sepia.Desktop.Abstraction;
+﻿using Sepia.Abstraction;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 

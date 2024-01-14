@@ -1,5 +1,6 @@
-using Sepia.Desktop.Abstraction;
+using Sepia.Abstraction;
 using Sepia.Desktop.Sepia;
+using Sepia.HighLevelSepia;
 
 namespace Sepia.Desktop
 {

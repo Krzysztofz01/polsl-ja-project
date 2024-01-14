@@ -9,4 +9,9 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sepia.Abstraction\Sepia.Abstraction.csproj" />
+    <ProjectReference Include="..\Sepia.HighLevelSepia\Sepia.HighLevelSepia.csproj" />
+  </ItemGroup>
+
 </Project>
